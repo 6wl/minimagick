@@ -158,10 +158,10 @@ module MiniMagick
         @info["data"] ||= (
           json = MiniMagick::Tool::Convert.new do |convert|
             convert << path
-            convert << "json:"
+            convert << "json:-"  #### added -
           end
-
-          data = JSON.parse(json)
+          ### nan -> NaN, accept NaN when parsing JSON
+          data = JSON.parse(json.gsub(': nan', ': NaN').gsub("\r",''), allow_nan: true)
           data = data.fetch(0) if data.is_a?(Array)
           data.fetch("image")
         )
