@@ -161,7 +161,10 @@ module MiniMagick
             convert << "json:-"  #### added -
           end
           ### nan -> NaN, accept NaN when parsing JSON
-          data = JSON.parse(json.gsub(': nan', ': NaN').gsub("\r",''), allow_nan: true)
+          json.gsub!(': nan', ': NaN')
+          json.gsub!(': -nan', ': NaN')
+          json.gsub!("\r", '')
+          data = JSON.parse(json, allow_nan: true)
           data = data.fetch(0) if data.is_a?(Array)
           data.fetch("image")
         )
