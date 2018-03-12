@@ -163,6 +163,7 @@ module MiniMagick
           ### nan -> NaN, accept NaN when parsing JSON
           json.gsub!(': nan', ': NaN')
           json.gsub!(': -nan', ': NaN')
+          json.gsub!(/^.*originGeometry.*$/, '')
           json.gsub!("\r", '')
           data = JSON.parse(json, allow_nan: true)
           data = data.fetch(0) if data.is_a?(Array)
